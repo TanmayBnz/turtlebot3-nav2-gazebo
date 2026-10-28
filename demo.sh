@@ -12,7 +12,8 @@ docker run -d --name tb3 --net=host --ipc=host \
   -e DISPLAY="$DISPLAY" -e QT_X11_NO_MITSHM=1 \
   -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/dri \
   -v "$PWD":/ws tb3-nav2 \
-  bash -ic 'ros2 launch nav2_bringup tb3_simulation_launch.py headless:=False' >/dev/null
+  bash -ic 'ros2 launch nav2_bringup tb3_simulation_launch.py headless:=False \
+    rviz_config_file:=/ws/config/nav2_view.rviz' >/dev/null
 
 echo "waiting for Gazebo to spawn the robot..."
 timeout 180 bash -c 'until docker logs tb3 2>&1 | grep -q "Spawn status"; do sleep 2; done'

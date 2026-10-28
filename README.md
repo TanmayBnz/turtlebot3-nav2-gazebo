@@ -7,6 +7,10 @@ normally use, so the robot has to detect it with its lidar and route around it.
 No custom navigation code: Nav2 does the localisation (AMCL), path planning and obstacle
 avoidance. `scripts/patrol.py` only sets the start pose and sends goals.
 
+**Demo video (67 s):** [`docs/demo.mp4`](docs/demo.mp4). Terminal top-left, Gazebo bottom-left,
+RViz right. The red box is the unmapped obstacle; in RViz it appears in the costmaps once the lidar
+sees it.
+
 ## Run it
 
 Needs Docker and an X server (tested on Arch Linux, Hyprland/XWayland, AMD iGPU via Mesa).
@@ -33,22 +37,23 @@ apply the three `export`/`source` lines it adds to `.bashrc`, then run the comma
 | `demo.sh` | Starts the simulation, spawns the box, runs the goals |
 | `scripts/patrol.py` | Sets initial pose, sends 3 goals via `nav2_simple_commander`, reports result and time |
 | `models/box.sdf` | The unmapped obstacle (0.4 x 0.4 x 0.5 m) |
+| `config/nav2_view.rviz` | Nav2's default RViz layout, zoomed out (scale 160 -> 75) so the whole world is visible |
 
 ## Results
 
 Goals were checked against the occupancy map first: every goal sits in free space with at
 least 0.5 m clearance (the Waffle's radius is about 0.22 m).
 
-| Leg | Baseline | With box (run 1) | With box (run 2) |
-|---|---|---|---|
-| start -> (1.6, 0.5) | 16.9 s | 15.8 s | 22.8 s |
-| -> (0.5, 1.6) | 12.1 s | 12.2 s | 13.8 s |
-| -> (-1.6, -0.5) | 21.4 s | 21.3 s | 21.9 s |
+| Leg | Baseline | With box (run 1) | With box (run 2) | With box (video) |
+|---|---|---|---|---|
+| start -> (1.6, 0.5) | 16.9 s | 15.8 s | 22.8 s | 15.8 s |
+| -> (0.5, 1.6) | 12.1 s | 12.2 s | 13.8 s | 12.8 s |
+| -> (-1.6, -0.5) | 21.4 s | 21.3 s | 21.9 s | 21.1 s |
 
-All 9 goals succeeded. Without the box, the planner's route to the first goal runs along the
+All 12 goals succeeded. Without the box, the planner's route to the first goal runs along the
 corridor at y ≈ 0.52. With the box, it switches to the parallel corridor at y ≈ -0.55. That
-corridor is about the same length, which is why leg 1 isn't consistently slower. The 7 s spread
-between the two box runs is only 2 samples, so I can't say what causes it.
+corridor is about the same length, which is why leg 1 isn't consistently slower. One box run
+took 7 s longer on leg 1, and with 3 samples I can't say why.
 
 ## Problems hit
 
@@ -67,7 +72,7 @@ between the two box runs is only 2 samples, so I can't say what causes it.
 ## Not done
 
 - No Nav2 parameter tuning. Everything runs on `nav2_bringup`'s default `nav2_params.yaml`.
-- Only one world (`turtlebot3_world`) and two runs per condition: not enough for timing claims.
+- Only one world (`turtlebot3_world`) and 1–3 runs per condition: not enough for timing claims.
 - The box is placed before the run starts, not while the robot is moving.
 - Gazebo Classic is end-of-life. The current pairing is ROS 2 Jazzy + Gazebo Harmonic. I chose
   Humble + Classic because it is the most documented TurtleBot3/Nav2 path and the deadline was

@@ -29,5 +29,9 @@ three locations and gets around an obstacle that isn't on its map. All 9 test go
   nothing. Checking the planned route showed the robot really did take a different corridor,
   one that happened to be the same length. The timing alone would have been misleading.
 
-**Open:** nothing blocking. The demo video, public repo and form are still to do. The
-submission link on the assignment page is missing, so ask Antropi for it.
+**Later the same day:** recorded the demo video (`docs/demo.mp4`, 67 s, all 3 goals reached
+with the box in place) and published the repo. Cropped the desktop's status bar out of the
+video before publishing, because it showed the Wi-Fi network name.
+
+**Open:** the form answers are still to do. The submission link on the assignment page is
+missing, so ask Antropi for it.
