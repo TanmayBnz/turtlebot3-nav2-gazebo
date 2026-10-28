@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- An obstacle that is NOT on the saved map: Nav2 only knows about it from live lidar. -->
+<sdf version="1.6">
+  <model name="surprise_box">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0.25 0 0 0</pose>
+      <collision name="collision">
+        <geometry><box><size>0.4 0.4 0.5</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <geometry><box><size>0.4 0.4 0.5</size></box></geometry>
+        <material><ambient>0.8 0.2 0.1 1</ambient><diffuse>0.8 0.2 0.1 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>
